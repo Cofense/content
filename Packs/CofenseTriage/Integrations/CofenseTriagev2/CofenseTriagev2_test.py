@@ -241,10 +241,17 @@ class TestCofenseTriage:
         CofenseTriagev2.get_attachment_command(triage_instance)
 
         demisto_results = CofenseTriagev2.demisto.results.call_args_list[0][0]
-        assert demisto_results[0]["FileID"] == "/path/to/temp/file"
-        assert demisto_results[0]["File"] == "my_great_file"
-        assert demisto_results[0]["EntryContext"] == {
-            "Cofense.Attachment(val.ID == obj.ID)": {"ID": "5"}
+        assert demisto_results[0] == {
+            "EntryContext": {
+                "Cofense.Attachment(val.ID == obj.ID)": {
+                    "Contents": "",
+                    "ContentsFormat": "text",
+                    "Type": "what",
+                    "File": "my_great_file",
+                    "FileID": "/path/to/temp/file",
+                    "ID": "5",
+                }
+            }
         }
 
     def test_get_reporter_command(self, requests_mock, triage_instance):

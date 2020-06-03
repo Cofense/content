@@ -428,13 +428,16 @@ def get_attachment_command(triage_instance) -> None:
 
     res = triage_instance.request(f'attachment/{attachment_id}', raw_response=True)
 
-    context_data = {'ID': attachment_id}
-
-    result = fileResult(file_name, res.content)
-    result.update(
-        {'EntryContext': {'Cofense.Attachment(val.ID == obj.ID)': context_data}}
+    demisto.results(
+        {
+            'EntryContext': {
+                'Cofense.Attachment(val.ID == obj.ID)': {
+                    **fileResult(file_name, res.content),
+                    **{'ID': attachment_id},
+                }
+            }
+        }
     )
-    demisto.results(result)
 
 
 def get_report_by_id_command(triage_instance) -> None:
