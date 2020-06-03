@@ -264,14 +264,16 @@ class TestCofenseTriage:
             "| 2019-04-12T02:58:17.401Z | 0 | reporter1@example.com | 111 | 2016-02-18T00:24:45.000Z | 3 | 2019-04-12T02:59:22.287Z | false |\n"  # noqa: 501
         )
         assert demisto_results[0]["Contents"] == {
-            "id": 111,
-            "email": "reporter1@example.com",
-            "created_at": "2019-04-12T02:58:17.401Z",
-            "updated_at": "2019-04-12T02:59:22.287Z",
-            "credibility_score": 0,
-            "reports_count": 3,
-            "last_reported_at": "2016-02-18T00:24:45.000Z",
-            "vip": False,
+            "Cofense.Reporter(val.Id && val.Id == obj.Id)": {
+                "ID": 111,
+                "Email": "reporter1@example.com",
+                "CreatedAt": "2019-04-12T02:58:17.401Z",
+                "UpdatedAt": "2019-04-12T02:59:22.287Z",
+                "CredibilityScore": 0,
+                "ReportsCount": 3,
+                "LastReportedAt": "2016-02-18T00:24:45.000Z",
+                "Vip": False,
+            }
         }
 
     def test_get_report_by_id_command(self, requests_mock, triage_instance):

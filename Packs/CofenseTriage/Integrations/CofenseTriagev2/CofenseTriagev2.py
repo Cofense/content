@@ -410,18 +410,15 @@ def get_reporter_command(triage_instance) -> None:
             outputs=reporter_id,
         )
 
-    demisto.results(
-        {
-            "Type": entryTypes["note"],
-            "ContentsFormat": formats["markdown"],
-            "Contents": reporter.attrs,
-            "HumanReadable": tableToMarkdown(
-                "Reporter Results:",
-                reporter.attrs,
-                headerTransform=split_snake,
-                removeNull=True,
-            ),
-        }
+    camel_case_attrs = snake_to_camel_keys([reporter.attrs])[0]
+    return_outputs(
+        outputs={"Cofense.Reporter(val.Id && val.Id == obj.Id)": camel_case_attrs},
+        readable_output=tableToMarkdown(
+            "Reporter Results:",
+            reporter.attrs,
+            headerTransform=split_snake,
+            removeNull=True,
+        ),
     )
 
 
